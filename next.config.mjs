@@ -2,7 +2,6 @@
 const isGithubPages = process.env.GITHUB_ACTIONS || process.env.NODE_ENV === "production"
 
 const nextConfig = {
-  output: "export",
 
   typescript: {
     ignoreBuildErrors: true,
