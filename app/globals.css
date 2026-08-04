@@ -1,0 +1,279 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@import 'shadcn/tailwind.css';
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --font-sans: var(--font-poppins);
+  --font-serif: var(--font-cormorant);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-gold: var(--gold);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+}
+
+/* Sparkling Ocean palette — light academia, minimalist luxury */
+:root {
+  color-scheme: light;
+  --background: #f2f9fd;
+  --foreground: #2c4b68;
+  --card: #f7fbfd;
+  --card-foreground: #2c4b68;
+  --popover: #f7fbfd;
+  --popover-foreground: #2c4b68;
+  --primary: #4f8fc0; /* crystal blue */
+  --primary-foreground: #f7fbfd;
+  --secondary: #ddeffa;
+  --secondary-foreground: #2c4b68;
+  --muted: #edf7fb;
+  --muted-foreground: #5c7f9c;
+  --accent: #c9ae72; /* champagne gold */
+  --accent-foreground: #2c4b68;
+  --gold: #c9ae72;
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: #cbe5f7;
+  --input: #cbe5f7;
+  --ring: #a8d5f2;
+  --radius: 0.75rem;
+
+  /* Cursor pearl / spark tints — overwritten per world at runtime. */
+  --cursor-spark: 201, 174, 114;
+  --cursor-foam: 251, 247, 239;
+  --cursor-glow: 168, 213, 242;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  html,
+  body {
+    @apply bg-background text-foreground;
+    /* the slow tide of a world-change, timed to match a song change */
+    transition: background-color 2400ms cubic-bezier(0.22, 0.61, 0.36, 1),
+      color 2400ms cubic-bezier(0.22, 0.61, 0.36, 1);
+  }
+  body {
+    font-feature-settings: 'liga' 1, 'kern' 1;
+    -webkit-font-smoothing: antialiased;
+  }
+  ::selection {
+    background: color-mix(in srgb, var(--accent) 40%, transparent);
+    color: var(--foreground);
+  }
+}
+
+@layer utilities {
+  /* Glassmorphism surfaces — tinted from the active world's tokens so they
+     morph with each world (bright in Endless Blue, deep in Moonlit Abyss). */
+  .glass {
+    background: linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--card) 60%, transparent),
+      color-mix(in srgb, var(--secondary) 30%, transparent)
+    );
+    backdrop-filter: blur(18px) saturate(130%);
+    -webkit-backdrop-filter: blur(18px) saturate(130%);
+    border: 1px solid color-mix(in srgb, var(--card) 65%, transparent);
+    box-shadow:
+      0 8px 40px color-mix(in srgb, var(--foreground) 14%, transparent),
+      inset 0 1px 1px color-mix(in srgb, #ffffff 55%, transparent);
+    transition: background 2400ms cubic-bezier(0.22, 0.61, 0.36, 1),
+      border-color 2400ms cubic-bezier(0.22, 0.61, 0.36, 1),
+      box-shadow 500ms ease, transform 450ms ease, color 2400ms ease;
+  }
+  .glass-soft {
+    background: linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--card) 44%, transparent),
+      color-mix(in srgb, var(--secondary) 20%, transparent)
+    );
+    backdrop-filter: blur(10px) saturate(120%);
+    -webkit-backdrop-filter: blur(10px) saturate(120%);
+    border: 1px solid color-mix(in srgb, var(--card) 52%, transparent);
+    transition: background 2400ms cubic-bezier(0.22, 0.61, 0.36, 1),
+      border-color 2400ms cubic-bezier(0.22, 0.61, 0.36, 1),
+      box-shadow 500ms ease, transform 450ms ease, color 2400ms ease;
+  }
+  /* Luxury organic glass — for popups. A brighter, deeper pane with a
+     faint gold rim-light and a top sheen, meant to read like sunlit water. */
+  .glass-lux {
+    background:
+      radial-gradient(120% 90% at 20% 0%, color-mix(in srgb, #ffffff 45%, transparent), transparent 55%),
+      linear-gradient(
+        150deg,
+        color-mix(in srgb, var(--card) 82%, transparent),
+        color-mix(in srgb, var(--secondary) 40%, transparent) 60%,
+        color-mix(in srgb, var(--primary) 22%, transparent)
+      );
+    backdrop-filter: blur(26px) saturate(135%);
+    -webkit-backdrop-filter: blur(26px) saturate(135%);
+    border: 1px solid color-mix(in srgb, #ffffff 55%, transparent);
+    box-shadow:
+      0 30px 90px -30px color-mix(in srgb, var(--foreground) 45%, transparent),
+      0 2px 30px color-mix(in srgb, var(--accent) 16%, transparent),
+      inset 0 1px 1px color-mix(in srgb, #ffffff 60%, transparent),
+      inset 0 -30px 60px -40px color-mix(in srgb, var(--primary) 40%, transparent);
+    transition: background 2400ms cubic-bezier(0.22, 0.61, 0.36, 1),
+      border-color 2400ms cubic-bezier(0.22, 0.61, 0.36, 1), color 2400ms ease;
+  }
+  .text-gold {
+    color: var(--gold);
+  }
+  .drop-glow {
+    filter: drop-shadow(0 0 18px rgba(168, 213, 242, 0.55));
+  }
+  .no-cursor,
+  .no-cursor * {
+    cursor: none;
+  }
+  /* Volume slider thumb — a small glowing pearl */
+  .ocean-range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 12px;
+    height: 12px;
+    border-radius: 9999px;
+    background: radial-gradient(circle at 30% 30%, #ffffff, var(--accent));
+    box-shadow: 0 0 8px 2px color-mix(in srgb, var(--accent) 55%, transparent);
+    cursor: pointer;
+  }
+  .ocean-range::-moz-range-thumb {
+    width: 12px;
+    height: 12px;
+    border: none;
+    border-radius: 9999px;
+    background: radial-gradient(circle at 30% 30%, #ffffff, var(--accent));
+    box-shadow: 0 0 8px 2px color-mix(in srgb, var(--accent) 55%, transparent);
+    cursor: pointer;
+  }
+
+  /* Headline that appears as if written by sunlight on water */
+  .sunlight-text {
+    background: linear-gradient(
+      100deg,
+      #6a94b8 0%,
+      #2c4b68 30%,
+      #c9ae72 50%,
+      #2c4b68 70%,
+      #6a94b8 100%
+    );
+    background-size: 220% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: sunlight-sweep 9s ease-in-out infinite;
+  }
+}
+
+@keyframes sunlight-sweep {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+/* Gentle infinite drift — a fallback / ambient motion primitive */
+@keyframes drift-y {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-14px);
+  }
+}
+
+@keyframes shimmer-text {
+  0%,
+  100% {
+    opacity: 0.85;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* Underwater-world life — quiet, slow, never mechanical-looking. */
+@keyframes sway {
+  0%,
+  100% {
+    transform: rotate(-3deg);
+  }
+  50% {
+    transform: rotate(3deg);
+  }
+}
+@keyframes bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-9px);
+  }
+}
+@keyframes swim {
+  0%,
+  100% {
+    transform: translateX(0) translateY(0);
+  }
+  50% {
+    transform: translateX(26px) translateY(-6px);
+  }
+}
+@keyframes drift-dust {
+  0% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(6px, -16px);
+  }
+  100% {
+    transform: translate(-4px, -30px);
+  }
+}
+@keyframes pulse-soft {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
